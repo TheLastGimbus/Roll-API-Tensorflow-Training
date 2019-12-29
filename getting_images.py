@@ -8,6 +8,7 @@ def internet_error():
     exit()
 
 while True:
+    # ip of my phone with roll-android-server running
     url = "http://192.168.1.10:8822"
     shake_req = requests.get(url)
     if shake_req.status_code != 200:
@@ -20,8 +21,10 @@ while True:
     if img_req.status_code != 200:
         internet_error()
         break
+
     pic_file_name = json['picture_url'][9:]
     print(pic_file_name)
+    # save picture from roll-api
     with open('pictures/' + pic_file_name, 'wb') as out_file:
         img_req.raw.decode_content = True
         shutil.copyfileobj(img_req.raw, out_file)
