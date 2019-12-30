@@ -15,9 +15,15 @@ pictures_ready_dir = 'pictures_ready_to_class/'
 for file in os.listdir(root_dir + pictures_all_dir):
     if not file.endswith('.jpg'):
         continue
+    pic_source = root_dir + pictures_all_dir + file
+    pic_target = root_dir + pictures_ready_dir + file
+    subprocess.run(['aspectcrop',
+                    '-a', '1:1',
+                    '-g', 'c',
+                    pic_source, pic_target])
     subprocess.run(['convert',
-                    root_dir + pictures_all_dir + file,
+                    pic_target,
                     # resolution high enough to be analyzed,
                     # but low enough to upload to cloud-training
-                    '-resize', '512x288',
-                    root_dir + pictures_ready_dir + file])
+                    '-resize', '288x288',
+                    pic_target])
