@@ -40,6 +40,10 @@ for pic in ready_to_class_list:
     for x in range(1, 8):  # from 1 to 7
         if number_key == x:
             # move it to proper folder
-            shutil.move(pic_path, root_dir + classes_folder + class_names[x])
+            shutil.move(pic_path, root_dir + classes_folder + class_names[x - 1])
+    if number_key == 9:  # remove pic from dataset
+        os.remove(pic_path)
+        
+    cv2.destroyAllWindows()
 
 print('You are done!')
