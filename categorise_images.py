@@ -25,6 +25,8 @@ for class_name in class_names:
 
 ready_to_class_list = os.listdir(root_dir + pictures_folder)
 
+last_moved = ''
+
 for pic in ready_to_class_list:
     pic_path = root_dir + pictures_folder + pic
     frame = cv2.imread(pic_path)
@@ -36,13 +38,19 @@ for pic in ready_to_class_list:
         cv2.destroyAllWindows()
         break
 
-    number_key = key-48 # because number key codes start from 49
+    number_key = key-48  # because number key codes start from 49
     for x in range(1, 8):  # from 1 to 7
         if number_key == x:
             # move it to proper folder
-            shutil.move(pic_path, root_dir + classes_folder + class_names[x - 1])
+            target = root_dir + classes_folder + class_names[x - 1] + '/'
+            shutil.move(pic_path, target)
+            last_moved = target + pic
     if number_key == 9:  # remove pic from dataset
         os.remove(pic_path)
+    # if you miss, you can undo last operation
+    # this will move last moved pic back to source folder
+    if number_key == 0:
+        shutil.move(last_moved, root_dir + pictures_folder)
         
     cv2.destroyAllWindows()
 
