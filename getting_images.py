@@ -1,3 +1,11 @@
+'''
+This is a script that will get pictures of rolled dice
+and put it in a directory so we can have a nice big dataset.
+
+We still need to manually categorise them later,
+using categorise_images.py
+'''
+
 import requests
 import shutil
 import subprocess
