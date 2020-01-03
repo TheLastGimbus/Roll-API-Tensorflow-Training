@@ -6,6 +6,7 @@ It uses imagemagic 'convert' tool.
 import argparse
 import subprocess
 import os
+import cv2
 
 parser = argparse.ArgumentParser('convert-images')
 parser.add_argument('-i', '--input-folder', type=str)
@@ -30,3 +31,14 @@ for file in os.listdir(args['input_folder']):
                     # but low enough to upload to cloud-training
                     '-resize', '288x288',
                     pic_target])
+    img = cv2.imread(pic_target, 0)
+    template = cv2.imread('template.jpg', 0)
+    w, h = template.shape[::-1]
+    method_str = 'cv2.TM_CCOEFF'
+    method = eval(method_str)
+    result = cv2.matchTemplate(img, template, method)
+    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+    top_left = max_loc
+    bottom_right = (top_left[0] + w, top_left[1] + h)
+    cropped_img = img[top_left[1]:bottom_right[1], top_left[0]:bottom_right[0]]
+    cv2.imwrite(pic_target, cropped_img)
