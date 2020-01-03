@@ -3,20 +3,23 @@ This is a very simple script to convert all images to proper size etc.
 It uses imagemagic 'convert' tool.
 """
 
+import argparse
 import subprocess
 import os
 
-# This is just dir before project dir
-# To not mess dataset with git-controlled code files
-root_dir = '../'
-pictures_all_dir = 'pictures_all/'
-pictures_ready_dir = 'pictures_ready_to_class/'
+parser = argparse.ArgumentParser('convert-images')
+parser.add_argument('-i', '--input-folder', type=str)
+parser.add_argument('-o', '--output-folder', type=str)
+args = vars(parser.parse_args())
 
-for file in os.listdir(root_dir + pictures_all_dir):
+source_folder = args['input_folder']
+target_folder = args['output_folder']
+
+for file in os.listdir(args['input_folder']):
     if not file.endswith('.jpg'):
         continue
-    pic_source = root_dir + pictures_all_dir + file
-    pic_target = root_dir + pictures_ready_dir + file
+    pic_source = source_folder + file
+    pic_target = target_folder + file
     subprocess.run(['aspectcrop',
                     '-a', '1:1',
                     '-g', 'c',
