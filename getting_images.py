@@ -9,6 +9,7 @@ using categorise_images.py
 import requests
 import shutil
 import subprocess
+import os
 
 def internet_error():
     subprocess.Popen(['notify-send', 'Python script has internet problem!'])
@@ -36,3 +37,7 @@ while True:
     with open('pictures/' + pic_file_name, 'wb') as out_file:
         img_req.raw.decode_content = True
         shutil.copyfileobj(img_req.raw, out_file)
+    saved_pics = os.listdir('../pictures_lg_right/')
+    if len(saved_pics) >= 300:
+        print("DONE! 300!")
+        break
