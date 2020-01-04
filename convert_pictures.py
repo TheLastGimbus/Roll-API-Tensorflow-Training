@@ -12,6 +12,7 @@ parser = argparse.ArgumentParser('convert-images')
 parser.add_argument('-i', '--input-folder', type=str)
 parser.add_argument('-o', '--output-folder', type=str)
 parser.add_argument('-m', '--matching-method', type=str, default='cv2.TM_CCOEFF')
+parser.add_argument('--template-image', type=str, default='template.jpg')
 args = vars(parser.parse_args())
 
 source_folder = args['input_folder']
@@ -37,7 +38,7 @@ for file in os.listdir(args['input_folder']):
                     '-resize', '288x288',
                     pic_target])
     img = cv2.imread(pic_target, 0)
-    template = cv2.imread('template.jpg', 0)
+    template = cv2.imread(args['template_image'], 0)
     w, h = template.shape[::-1]
     method_str = args['matching_method']
     method = eval(method_str)
