@@ -16,6 +16,10 @@ args = vars(parser.parse_args())
 
 source_folder = args['input_folder']
 target_folder = args['output_folder']
+if not source_folder.endswith('/'):
+    source_folder += '/'
+if not target_folder.endswith('/'):
+    target_folder += '/'
 
 for file in os.listdir(args['input_folder']):
     if not file.endswith('.jpg'):
